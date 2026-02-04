@@ -1,0 +1,6 @@
+@PeladeirosfcApp_HostAddress = http://localhost:5112
+
+GET {{PeladeirosfcApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
