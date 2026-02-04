@@ -35,8 +35,6 @@ namespace PeladeirosfcApp.Data
             // =====================================================
             builder.Entity<Usuario>(entity =>
             {
-                entity.Property(u => u.Nome)
-                      .HasMaxLength(150);
 
                 entity.Property(u => u.Apelido)
                       .HasMaxLength(100);

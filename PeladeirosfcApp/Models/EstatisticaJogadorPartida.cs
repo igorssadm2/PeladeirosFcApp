@@ -5,7 +5,7 @@
         public Guid Id { get; set; }
 
         public Guid JogadorPartidaId { get; set; }
-        public JogadorPartida JogadorPartida { get; set; }
+        public JogadorPartida? JogadorPartida { get; set; }
 
         public int Gols { get; set; }
         public int Assistencias { get; set; }

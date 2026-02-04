@@ -8,7 +8,7 @@
         public JogadorPartida? JogadorPartida { get; set; }
 
         public string? AvaliadorId { get; set; }
-        public Usuario Avaliador { get; set; }
+        public Usuario? Avaliador { get; set; }
 
         public int Nota { get; set; }
 

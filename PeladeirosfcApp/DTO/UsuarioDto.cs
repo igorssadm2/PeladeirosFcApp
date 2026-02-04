@@ -1,12 +1,12 @@
-﻿namespace PeladeirosfcApp.Models
+using System;
+
+namespace PeladeirosfcApp.DTO
 {
-
-    using Microsoft.AspNetCore.Identity;
-
-    public class Usuario : IdentityUser
+    public class UsuarioDto
     {
+        public string? Nome { get; set; }
         public string? Apelido { get; set; }
-
+        public string? Email { get; set; }
         public DateTime? DataNascimento { get; set; }
         public string? Genero { get; set; }
         public string? FotoUrl { get; set; }
@@ -22,10 +22,5 @@
 
         public DateTime DataCriacao { get; set; } = DateTime.UtcNow;
         public DateTime? DataAtualizacao { get; set; }
-
-
-        // Construtor de conveniência para inicializar campos comuns
-       
     }
-
 }

@@ -7,10 +7,10 @@ namespace PeladeirosfcApp.Models
         public Guid Id { get; set; }
 
         public Guid GrupoPeladaId { get; set; }
-        public GrupoPelada GrupoPelada { get; set; }
+        public GrupoPelada? GrupoPelada { get; set; }
 
-        public string UsuarioId { get; set; }
-        public Usuario Usuario { get; set; }
+        public string? UsuarioId { get; set; }
+        public Usuario? Usuario { get; set; }
 
         public TipoMembroGrupo Tipo { get; set; }
 
