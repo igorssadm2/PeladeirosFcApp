@@ -1,0 +1,24 @@
+@page "/perfil"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@inject AuthenticationStateProvider AuthStateProvider
+
+<PageTitle>Meu Perfil</PageTitle>
+
+<h1>Meu Perfil</h1>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Informações do Usuário</h5>
+                <p><strong>Nome:</strong> @context.User.Identity?.Name</p>
+                <p><strong>Autenticado:</strong> @context.User.Identity?.IsAuthenticated</p>
+                <p><strong>Tipo de Autenticação:</strong> @context.User.Identity?.AuthenticationType</p>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <p>Você precisa fazer login para ver esta página.</p>
+    </NotAuthorized>
+</AuthorizeView>

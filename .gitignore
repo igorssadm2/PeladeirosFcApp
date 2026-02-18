@@ -5,3 +5,6 @@
 /.vs
 /PeladeirosfcApp/bin/Debug/net8.0
 /PeladeirosfcApp/obj
+/PeladeirosfcAppView/obj
+/PeladeirosfcAppWeb/obj
+/PeladeirosfcAppView/bin/Debug/net8.0

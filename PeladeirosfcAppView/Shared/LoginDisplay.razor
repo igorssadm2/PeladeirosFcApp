@@ -1,0 +1,23 @@
+@using PeladeirosfcAppView.Services
+@inject CustomAuthenticationStateProvider AuthStateProvider
+@inject NavigationManager NavigationManager
+
+<AuthorizeView>
+    <Authorized>
+        <span class="navbar-text me-3">
+            Olá, @context.User.Identity?.Name!
+        </span>
+        <button class="btn btn-outline-light btn-sm" @onclick="Logout">Sair</button>
+    </Authorized>
+    <NotAuthorized>
+        <a href="login" class="btn btn-outline-light btn-sm">Entrar</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private void Logout()
+    {
+        AuthStateProvider.MarkUserAsLoggedOut();
+        NavigationManager.NavigateTo("/");
+    }
+}

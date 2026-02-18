@@ -1,0 +1,20 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Bem-vindo ao Peladeiros FC!</h1>
+
+<p>Gerencie seus jogadores e times de forma simples e eficiente.</p>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="alert alert-success" role="alert">
+            Olá, <strong>@context.User.Identity?.Name</strong>! Você está autenticado.
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="alert alert-info" role="alert">
+            Faça <a href="login">login</a> para acessar todos os recursos da aplicação.
+        </div>
+    </NotAuthorized>
+</AuthorizeView>

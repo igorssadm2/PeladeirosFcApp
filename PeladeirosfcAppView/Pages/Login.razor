@@ -1,0 +1,69 @@
+@page "/login"
+@using PeladeirosfcAppView.Services
+@inject CustomAuthenticationStateProvider AuthStateProvider
+@inject NavigationManager NavigationManager
+
+<PageTitle>Login</PageTitle>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Login</h3>
+                </div>
+                <div class="card-body">
+                    <EditForm Model="@loginModel" OnValidSubmit="@HandleLogin">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary />
+
+                        <div class="mb-3">
+                            <label for="userName" class="form-label">Nome de Usuário:</label>
+                            <InputText id="userName" class="form-control" @bind-Value="loginModel.UserName" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Senha:</label>
+                            <InputText id="password" type="password" class="form-control" @bind-Value="loginModel.Password" />
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <div class="alert alert-danger">@errorMessage</div>
+                        }
+
+                        <button type="submit" class="btn btn-primary">Entrar</button>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private LoginModel loginModel = new();
+    private string errorMessage = string.Empty;
+
+    private void HandleLogin()
+    {
+        // Por enquanto, aceita qualquer usuário/senha para demonstração
+        // Você deve implementar validação real aqui, chamando sua API
+        if (!string.IsNullOrWhiteSpace(loginModel.UserName) && 
+            !string.IsNullOrWhiteSpace(loginModel.Password))
+        {
+            // Simula login bem-sucedido
+            AuthStateProvider.MarkUserAsAuthenticated(loginModel.UserName, "user-id-123");
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            errorMessage = "Por favor, preencha todos os campos.";
+        }
+    }
+
+    public class LoginModel
+    {
+        public string UserName { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+}
