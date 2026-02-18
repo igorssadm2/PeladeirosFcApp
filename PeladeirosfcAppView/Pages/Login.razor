@@ -3,38 +3,62 @@
 @inject CustomAuthenticationStateProvider AuthStateProvider
 @inject NavigationManager NavigationManager
 
-<PageTitle>Login</PageTitle>
+<PageTitle>Login - Peladeiros FC</PageTitle>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Login</h3>
+<div class="min-h-screen bg-background flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md">
+        <div class="text-center mb-8">
+            <div class="flex justify-center mb-4">
+                <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary">
+                    <svg class="h-6 w-6 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"></path>
+                    </svg>
                 </div>
-                <div class="card-body">
-                    <EditForm Model="@loginModel" OnValidSubmit="@HandleLogin">
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-bold text-foreground">Bem-vindo de volta</h1>
+            <p class="mt-2 text-sm text-muted-foreground">
+                Entre com sua conta para continuar
+            </p>
+        </div>
 
-                        <div class="mb-3">
-                            <label for="userName" class="form-label">Nome de Usuário:</label>
-                            <InputText id="userName" class="form-control" @bind-Value="loginModel.UserName" />
+        <div class="rounded-lg border border-border bg-card p-6 sm:p-8">
+            <EditForm Model="@loginModel" OnValidSubmit="@HandleLogin">
+                <DataAnnotationsValidator />
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-foreground mb-2">Nome de Usuário</label>
+                        <InputText @bind-Value="loginModel.UserName" class="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary" placeholder="seu_usuario" />
+                        <ValidationMessage For="@(() => loginModel.UserName)" class="text-xs text-destructive mt-1" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-foreground mb-2">Senha</label>
+                        <InputText @bind-Value="loginModel.Password" type="password" class="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary" placeholder="••••••••" />
+                        <ValidationMessage For="@(() => loginModel.Password)" class="text-xs text-destructive mt-1" />
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="p-3 rounded-md bg-destructive/10 border border-destructive/50">
+                            <p class="text-sm text-destructive">@errorMessage</p>
                         </div>
+                    }
 
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Senha:</label>
-                            <InputText id="password" type="password" class="form-control" @bind-Value="loginModel.Password" />
-                        </div>
-
-                        @if (!string.IsNullOrEmpty(errorMessage))
-                        {
-                            <div class="alert alert-danger">@errorMessage</div>
-                        }
-
-                        <button type="submit" class="btn btn-primary">Entrar</button>
-                    </EditForm>
+                    <button type="submit" class="w-full px-4 py-2.5 bg-primary text-primary-foreground rounded-md font-medium hover:bg-primary/90 transition-colors">
+                        Entrar
+                    </button>
                 </div>
+            </EditForm>
+
+            <div class="mt-6 text-center">
+                <p class="text-sm text-muted-foreground">
+                    Não tem uma conta?
+                    <button @onclick="@(() => NavigationManager.NavigateTo("/signup"))" class="text-primary hover:underline font-medium">
+                        Cadastre-se
+                    </button>
+                </p>
             </div>
         </div>
     </div>
@@ -46,12 +70,9 @@
 
     private void HandleLogin()
     {
-        // Por enquanto, aceita qualquer usuário/senha para demonstração
-        // Você deve implementar validação real aqui, chamando sua API
         if (!string.IsNullOrWhiteSpace(loginModel.UserName) && 
             !string.IsNullOrWhiteSpace(loginModel.Password))
         {
-            // Simula login bem-sucedido
             AuthStateProvider.MarkUserAsAuthenticated(loginModel.UserName, "user-id-123");
             NavigationManager.NavigateTo("/");
         }
@@ -63,7 +84,10 @@
 
     public class LoginModel
     {
+        [Required(ErrorMessage = "Nome de usuário é obrigatório")]
         public string UserName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Senha é obrigatória")]
         public string Password { get; set; } = string.Empty;
     }
 }

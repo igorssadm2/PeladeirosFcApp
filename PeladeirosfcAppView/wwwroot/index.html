@@ -1,13 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PeladeirosfcAppView</title>
+    <title>Peladeiros FC - Jogue mais, organize menos</title>
     <base href="/" />
-    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/app.css" />
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        border: 'hsl(var(--border))',
+                        input: 'hsl(var(--input))',
+                        ring: 'hsl(var(--ring))',
+                        background: 'hsl(var(--background))',
+                        foreground: 'hsl(var(--foreground))',
+                        primary: {
+                            DEFAULT: 'hsl(var(--primary))',
+                            foreground: 'hsl(var(--primary-foreground))'
+                        },
+                        secondary: {
+                            DEFAULT: 'hsl(var(--secondary))',
+                            foreground: 'hsl(var(--secondary-foreground))'
+                        },
+                        destructive: {
+                            DEFAULT: 'hsl(var(--destructive))',
+                            foreground: 'hsl(var(--destructive-foreground))'
+                        },
+                        muted: {
+                            DEFAULT: 'hsl(var(--muted))',
+                            foreground: 'hsl(var(--muted-foreground))'
+                        },
+                        accent: {
+                            DEFAULT: 'hsl(var(--accent))',
+                            foreground: 'hsl(var(--accent-foreground))'
+                        },
+                        card: {
+                            DEFAULT: 'hsl(var(--card))',
+                            foreground: 'hsl(var(--card-foreground))'
+                        }
+                    },
+                    borderRadius: {
+                        lg: 'var(--radius)',
+                        md: 'calc(var(--radius) - 2px)',
+                        sm: 'calc(var(--radius) - 4px)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link href="css/app.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link href="PeladeirosfcAppView.styles.css" rel="stylesheet" />
     <link href="manifest.webmanifest" rel="manifest" />
@@ -17,18 +65,23 @@
 
 <body>
     <div id="app">
-        <svg class="loading-progress">
-            <circle r="40%" cx="50%" cy="50%" />
-            <circle r="40%" cx="50%" cy="50%" />
-        </svg>
-        <div class="loading-progress-text"></div>
+        <div class="flex items-center justify-center min-h-screen bg-background">
+            <div class="text-center">
+                <svg class="animate-spin h-12 w-12 text-primary mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p class="text-muted-foreground">Carregando...</p>
+            </div>
+        </div>
     </div>
 
     <div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="" class="reload">Reload</a>
+        Ocorreu um erro não tratado.
+        <a href="" class="reload">Recarregar</a>
         <a class="dismiss">🗙</a>
     </div>
+    
     <script src="_content/Microsoft.AspNetCore.Components.WebAssembly.Authentication/AuthenticationService.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
