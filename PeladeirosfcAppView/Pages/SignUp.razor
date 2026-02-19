@@ -1,7 +1,10 @@
 @page "/signup"
-@using PeladeirosfcAppView.Models
+@using PeladeirosfcApp.Shared.ViewToApiDTO
+@using PeladeirosfcAppView.Services
+@using System.ComponentModel.DataAnnotations
 @inject NavigationManager Navigation
 @inject IUsuarioService UsuarioService
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Cadastro - Peladeiros FC</PageTitle>
 
@@ -77,8 +80,8 @@
 
                     <div class="space-y-1.5">
                         <label class="block text-sm text-foreground">Nome de Usuário</label>
-                        <InputText @bind-Value="signupModel.UserName" class="w-full h-10 sm:h-11 px-4 border border-border rounded-lg bg-card/80 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Seu nome de usuário" />
-                        <ValidationMessage For="@(() => signupModel.UserName)" class="text-xs text-destructive mt-1 block" />
+                        <InputText @bind-Value="signupModel.Nome" class="w-full h-10 sm:h-11 px-4 border border-border rounded-lg bg-card/80 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Seu nome de usuário" />
+                        <ValidationMessage For="@(() => signupModel.Nome)" class="text-xs text-destructive mt-1 block" />
                     </div>
 
                     <div class="space-y-1.5">
@@ -94,7 +97,7 @@
 
                     <div class="space-y-1.5">
                         <label class="block text-sm text-foreground">Telefone</label>
-                        <InputText @bind-Value="signupModel.PhoneNumber" type="tel" class="w-full h-10 sm:h-11 px-4 border border-border rounded-lg bg-card/80 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="(00) 00000-0000" />
+                        <InputText @bind-Value="signupModel.Telefone" type="tel" class="w-full h-10 sm:h-11 px-4 border border-border rounded-lg bg-card/80 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="(00) 00000-0000" />
                     </div>
 
                     <div class="grid grid-cols-2 gap-3 sm:gap-4">
@@ -185,6 +188,51 @@
     private string successMessage = string.Empty;
     private bool isLoading = false;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+#if DEBUG
+            await PerguntarPreenchimentoFake();
+#endif
+        }
+    }
+
+    private async Task PerguntarPreenchimentoFake()
+    {
+        try
+        {
+            var confirmar = await JSRuntime.InvokeAsync<bool>("confirm", 
+                "?? Modo Debug Ativo!\n\nDeseja preencher o formulário com dados fake para teste?");
+
+            if (confirmar)
+            {
+                PreencherDadosFake();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao perguntar sobre dados fake: {ex.Message}");
+        }
+    }
+
+    private void PreencherDadosFake()
+    {
+        var dadosFake = ServiceUtils.GerarDadosFakeSignUp();
+        
+        signupModel.Email = dadosFake.Email;
+        signupModel.Telefone = dadosFake.Telefone;
+        signupModel.Apelido = dadosFake.Apelido;
+        signupModel.DataNascimento = dadosFake.DataNascimento;
+        signupModel.Genero = dadosFake.Genero;
+        signupModel.PeDominante = dadosFake.PeDominante;
+        signupModel.Posicao = dadosFake.Posicao;
+
+        StateHasChanged();
+        
+        Console.WriteLine("? Formulário preenchido com dados fake!");
+    }
+
     private async Task HandleSignup()
     {
         try
@@ -193,12 +241,10 @@
             errorMessage = string.Empty;
             successMessage = string.Empty;
 
-            var usuario = new Usuario
+            var usuarioDto = new UsuarioDto
             {
-                Id = Guid.NewGuid().ToString(),
-                UserName = signupModel.UserName,
                 Email = signupModel.Email,
-                PhoneNumber = signupModel.PhoneNumber,
+                Telefone = signupModel.Telefone,
                 Apelido = signupModel.Apelido,
                 DataNascimento = signupModel.DataNascimento,
                 Genero = signupModel.Genero,
@@ -206,7 +252,7 @@
                 Posicao = signupModel.Posicao
             };
 
-            await UsuarioService.CreateUsuarioAsync(usuario);
+            await UsuarioService.CreateUsuarioAsync(usuarioDto);
 
             successMessage = "Conta criada com sucesso! Redirecionando para login...";
             await Task.Delay(2000);
@@ -228,14 +274,13 @@
 
     private class SignUpModel
     {
-        [Required(ErrorMessage = "Nome de usuário é obrigatório")]
-        public string UserName { get; set; } = string.Empty;
+        public string? Nome { get; set; }
 
         [Required(ErrorMessage = "Email é obrigatório")]
         [EmailAddress(ErrorMessage = "Email inválido")]
         public string Email { get; set; } = string.Empty;
 
-        public string? PhoneNumber { get; set; }
+        public string? Telefone { get; set; }
         public string? Apelido { get; set; }
         public DateTime? DataNascimento { get; set; }
         public string? Genero { get; set; }

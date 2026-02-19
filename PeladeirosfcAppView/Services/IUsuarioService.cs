@@ -1,13 +1,13 @@
-using PeladeirosfcAppView.Models;
+using PeladeirosfcApp.Shared.ViewToApiDTO;
 
 namespace PeladeirosfcAppView.Services
 {
     public interface IUsuarioService
     {
-        Task<List<Usuario>> GetUsuariosAsync();
-        Task<Usuario?> GetUsuarioAsync(string id);
-        Task<Usuario> CreateUsuarioAsync(Usuario usuario);
-        Task UpdateUsuarioAsync(string id, Usuario usuario);
+        Task<List<UsuarioDto>> GetUsuariosAsync();
+        Task<UsuarioDto?> GetUsuarioAsync(string id);
+        Task<UsuarioDto> CreateUsuarioAsync(UsuarioDto usuario);
+        Task UpdateUsuarioAsync(string id, UsuarioDto usuario);
         Task DeleteUsuarioAsync(string id);
     }
 }

@@ -1,5 +1,5 @@
 @page "/usuarios"
-@using PeladeirosfcAppView.Models
+@using PeladeirosfcApp.Shared.ViewToApiDTO
 @using PeladeirosfcAppView.Services
 @inject IUsuarioService UsuarioService
 @inject IJSRuntime JSRuntime
@@ -35,14 +35,14 @@ else
                 <tr>
                     <td>@usuario.Apelido</td>
                     <td>@usuario.Email</td>
-                    <td>@usuario.PhoneNumber</td>
+                    <td>@usuario.Telefone</td>
                     <td>@usuario.Posicao</td>
                     <td>@usuario.PeDominante</td>
                     <td>
-                        <button class="btn btn-primary btn-sm" @onclick="() => EditarUsuario(usuario.Id)">
+                        <button class="btn btn-primary btn-sm" @onclick="() => EditarUsuario(usuario.Email ?? string.Empty)">
                             Editar
                         </button>
-                        <button class="btn btn-danger btn-sm" @onclick="() => DeletarUsuario(usuario.Id)">
+                        <button class="btn btn-danger btn-sm" @onclick="() => DeletarUsuario(usuario.Email ?? string.Empty)">
                             Excluir
                         </button>
                     </td>
@@ -53,7 +53,7 @@ else
 }
 
 @code {
-    private List<Usuario>? usuarios;
+    private List<UsuarioDto>? usuarios;
 
     protected override async Task OnInitializedAsync()
     {

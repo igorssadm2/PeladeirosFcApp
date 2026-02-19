@@ -1,12 +1,22 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace PeladeirosfcApp.Shared.ViewToApiDTO
 {
     public class UsuarioDto
     {
+        [Required(ErrorMessage = "Nome é obrigatório")]
+        [StringLength(100, ErrorMessage = "Nome deve ter no máximo 100 caracteres")]
         public string? Nome { get; set; }
+        
+        [StringLength(50, ErrorMessage = "Apelido deve ter no máximo 50 caracteres")]
         public string? Apelido { get; set; }
+        
+        [Required(ErrorMessage = "Email é obrigatório")]
+        [EmailAddress(ErrorMessage = "Email inválido")]
+        [StringLength(255, ErrorMessage = "Email deve ter no máximo 255 caracteres")]
         public string? Email { get; set; }
+        
         public DateTime? DataNascimento { get; set; }
         public string? Genero { get; set; }
         public string? FotoUrl { get; set; }
