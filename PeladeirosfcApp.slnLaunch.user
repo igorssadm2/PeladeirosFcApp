@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Novo Perfil",
+    "Projects": [
+      {
+        "Path": "PeladeirosfcAppView\\PeladeirosfcAppView.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "PeladeirosfcApp\\PeladeirosfcApp.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

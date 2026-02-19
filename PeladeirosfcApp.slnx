@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="PeladeirosfcApp.Shared/PeladeirosfcApp.Shared.csproj" Id="4daf7f9c-ff1a-47b0-97c2-d6093f30df2c" />
   <Project Path="PeladeirosfcApp/PeladeirosfcApp.csproj" />
+  <Project Path="PeladeirosfcAppView/PeladeirosfcAppView.csproj" Id="f91776bf-ea50-48cd-8dfe-71819479de1c" />
 </Solution>

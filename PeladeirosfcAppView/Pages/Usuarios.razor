@@ -1,0 +1,81 @@
+@page "/usuarios"
+@using PeladeirosfcAppView.Models
+@using PeladeirosfcAppView.Services
+@inject IUsuarioService UsuarioService
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Usuários</PageTitle>
+
+<h1>Gerenciar Usuários</h1>
+
+@if (usuarios == null)
+{
+    <p><em>Carregando...</em></p>
+}
+else if (!usuarios.Any())
+{
+    <p><em>Nenhum usuário encontrado.</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Apelido</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>Posição</th>
+                <th>Pé Dominante</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in usuarios)
+            {
+                <tr>
+                    <td>@usuario.Apelido</td>
+                    <td>@usuario.Email</td>
+                    <td>@usuario.PhoneNumber</td>
+                    <td>@usuario.Posicao</td>
+                    <td>@usuario.PeDominante</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" @onclick="() => EditarUsuario(usuario.Id)">
+                            Editar
+                        </button>
+                        <button class="btn btn-danger btn-sm" @onclick="() => DeletarUsuario(usuario.Id)">
+                            Excluir
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Usuario>? usuarios;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CarregarUsuarios();
+    }
+
+    private async Task CarregarUsuarios()
+    {
+        usuarios = await UsuarioService.GetUsuariosAsync();
+    }
+
+    private void EditarUsuario(string id)
+    {
+        // Implementar navegação para edição
+    }
+
+    private async Task DeletarUsuario(string id)
+    {
+        if (await JSRuntime.InvokeAsync<bool>("confirm", "Deseja realmente excluir este usuário?"))
+        {
+            await UsuarioService.DeleteUsuarioAsync(id);
+            await CarregarUsuarios();
+        }
+    }
+}
