@@ -1,9 +1,15 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PeladeirosfcApp.Data;
 using PeladeirosfcApp.Services;
 using PeladeirosfcApp.Services.interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// ✅ Forçar HTTP em desenvolvimento
+if (builder.Environment.IsDevelopment())
+{
+    builder.WebHost.UseUrls("http://localhost:5112");
+}
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -17,27 +23,29 @@ builder.Services.AddCors(options =>
     {
         policy
             .WithOrigins(
-                "http://localhost:3000", 
-                "http://localhost:5173",
-                "https://localhost:7002",  // Blazor WebAssembly HTTPS
-                "http://localhost:5002"     // Blazor WebAssembly HTTP
+                "https://localhost:7109",  // ✅ PORTA DO BLAZOR WASM (HTTPS)
+                "http://localhost:5268",   // ✅ PORTA DO BLAZOR WASM (HTTP)
+                "https://localhost:44351", // ✅ IIS Express SSL
+                "https://localhost:5112",  // API (caso consuma a si mesma)
+                "http://localhost:5112"    // API HTTP
             )
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials(); // ✅ Adicione isso se usar autenticação
     });
 });
 
 // Configura EF Core com SQLite. Usa a connection string em appsettings.json
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+        options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Registrar servi�os
+// Registrar serviços
 builder.Services.AddScoped<IUsuarioService, UsuarioServices>();
 
 
 var app = builder.Build();
 
-// Aplica migra��es automaticamente ao iniciar (�til em desenvolvimento)
+// Aplica migrações automaticamente ao iniciar (útil em desenvolvimento)
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -51,20 +59,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Opcional: definir pol�tica de referrer explicitamente
-app.Use(async (context, next) =>
-{
-    context.Response.Headers["Referrer-Policy"] = "no-referrer";
-    await next();
-});
-
 app.UseHttpsRedirection();
-
-// Aplicar CORS antes de MapControllers
-app.UseCors("AllowLocalDev");
-
+app.UseCors("AllowLocalDev");  // ✅ CORS antes de Authorization
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+
+
