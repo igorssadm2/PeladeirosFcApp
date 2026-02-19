@@ -1,25 +1,25 @@
-<section class="border-t border-border bg-card/30 py-12 sm:py-20">
-    <div class="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        <div class="mb-8 sm:mb-12 text-center">
-            <h2 class="mb-3 sm:mb-4 text-2xl sm:text-3xl font-bold text-foreground md:text-4xl">
+<section class="border-t border-border bg-card/30 py-12 sm:py-16 lg:py-20">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mb-10 sm:mb-12 text-center">
+            <h2 class="mb-3 text-2xl font-bold text-foreground sm:text-3xl md:text-4xl">
                 Como funciona
             </h2>
-            <p class="mx-auto max-w-2xl text-sm sm:text-base text-muted-foreground">
+            <p class="mx-auto max-w-2xl px-4 text-base text-muted-foreground sm:text-lg">
                 Tudo que você precisa para jogar mais e se divertir com a comunidade.
             </p>
         </div>
 
-        <div class="grid gap-4 sm:gap-6 grid-cols-2 lg:grid-cols-4">
+        <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             @foreach (var feature in features)
             {
-                <div class="group rounded-lg sm:rounded-xl border border-border bg-card p-4 sm:p-6 transition-all hover:border-primary/50 hover:bg-card/80">
-                    <div class="mb-3 sm:mb-4 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg bg-primary/20 transition-colors group-hover:bg-primary/30">
+                <div class="group rounded-xl border border-border bg-card p-6 transition-all hover:border-primary/50 hover:bg-card/80 hover:shadow-lg">
+                    <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/20 transition-colors group-hover:bg-primary/30">
                         @((MarkupString)feature.Icon)
                     </div>
-                    <h3 class="mb-1.5 sm:mb-2 text-sm sm:text-lg font-semibold text-foreground">
+                    <h3 class="mb-2 text-base font-semibold text-foreground sm:text-lg">
                         @feature.Title
                     </h3>
-                    <p class="text-xs sm:text-sm leading-relaxed text-muted-foreground">
+                    <p class="text-sm leading-relaxed text-muted-foreground">
                         @feature.Description
                     </p>
                 </div>

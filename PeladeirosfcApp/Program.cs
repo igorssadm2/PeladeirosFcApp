@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PeladeirosfcApp.Data;
+using PeladeirosfcApp.Services;
+using PeladeirosfcApp.Services.interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +30,9 @@ builder.Services.AddCors(options =>
 // Configura EF Core com SQLite. Usa a connection string em appsettings.json
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Registrar serviços
+builder.Services.AddScoped<IUsuarioService, UsuarioServices>();
 
 
 var app = builder.Build();

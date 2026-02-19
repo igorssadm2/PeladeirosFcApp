@@ -11,7 +11,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 // Configurar HttpClient para comunicar com a API
 builder.Services.AddScoped(sp => new HttpClient 
 { 
-    BaseAddress = new Uri("https://localhost:7001/") // Ajuste para a porta da sua API
+    BaseAddress = new Uri("https://localhost:5112/") // Ajuste para a porta da sua API
 });
 
 // Registrar serviços da API

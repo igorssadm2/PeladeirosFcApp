@@ -1,6 +1,6 @@
 using System;
 
-namespace PeladeirosfcApp.DTO
+namespace PeladeirosfcApp.Shared.ViewToApiDTO
 {
     public class UsuarioDto
     {
@@ -13,6 +13,7 @@ namespace PeladeirosfcApp.DTO
         public string? Cidade { get; set; }
         public string? Bairro { get; set; }
         public string? CEP { get; set; }
+        public string? Telefone { get; set; }
 
         public decimal? Altura { get; set; }
         public decimal? Peso { get; set; }
