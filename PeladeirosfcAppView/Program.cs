@@ -11,13 +11,13 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 // Configurar HttpClient para comunicar com a API
 builder.Services.AddScoped(sp => new HttpClient 
 { 
-    BaseAddress = new Uri("https://localhost:5112/") // Ajuste para a porta da sua API
+    BaseAddress = new Uri("http://localhost:5112/") // Ajuste para a porta da sua API
 });
 
-// Registrar serviços da API
+// Registrar serviï¿½os da API
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
-// Configurar autenticação e autorização
+// Configurar autenticaï¿½ï¿½o e autorizaï¿½ï¿½o
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<CustomAuthenticationStateProvider>());

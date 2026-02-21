@@ -23,11 +23,16 @@ builder.Services.AddCors(options =>
     {
         policy
             .WithOrigins(
-                "https://localhost:7109",  // ✅ PORTA DO BLAZOR WASM (HTTPS)
-                "http://localhost:5268",   // ✅ PORTA DO BLAZOR WASM (HTTP)
-                "https://localhost:44351", // ✅ IIS Express SSL
-                "https://localhost:5112",  // API (caso consuma a si mesma)
-                "http://localhost:5112"    // API HTTP
+                "http://localhost:3000",
+                "http://localhost:5173",
+                "https://localhost:7002",
+                "http://localhost:5002",
+                "https://localhost:7109",  // Blazor WebAssembly HTTPS
+                "http://localhost:5268",   // Blazor WebAssembly HTTP
+                "http://localhost:31409",  // Blazor IIS Express
+                "https://localhost:44351", // IIS Express SSL
+                "https://localhost:5112",
+                "http://localhost:5112"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
