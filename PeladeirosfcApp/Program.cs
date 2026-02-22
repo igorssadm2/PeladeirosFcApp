@@ -1,12 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PeladeirosfcApp.Data;
 using PeladeirosfcApp.Services;
 using PeladeirosfcApp.Services.interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ✅ Forçar HTTP em desenvolvimento
-if (builder.Environment.IsDevelopment())
+// Em desenvolvimento local (fora do Docker): escuta na 5112. No Docker usa ASPNETCORE_HTTP_PORTS (8080).
+if (builder.Environment.IsDevelopment() && string.IsNullOrEmpty(Environment.GetEnvironmentVariable("ASPNETCORE_HTTP_PORTS")))
 {
     builder.WebHost.UseUrls("http://localhost:5112");
 }
@@ -32,7 +32,8 @@ builder.Services.AddCors(options =>
                 "http://localhost:31409",  // Blazor IIS Express
                 "https://localhost:44351", // IIS Express SSL
                 "https://localhost:5112",
-                "http://localhost:5112"
+                "http://localhost:5112",
+                "http://localhost:8080"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()

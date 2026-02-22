@@ -16,10 +16,10 @@ namespace PeladeirosfcApp.Controllers
         }
 
         /// <summary>
-        /// Obtém uma lista paginada de usuários
+        /// Obt?m uma lista paginada de usu?rios
         /// </summary>
-        /// <param name="pageNumber">Número da página (padrão: 1)</param>
-        /// <param name="pageSize">Tamanho da página (padrão: 10, máximo: 100)</param>
+        /// <param name="pageNumber">N?mero da p?gina (padr?o: 1)</param>
+        /// <param name="pageSize">Tamanho da p?gina (padr?o: 10, m?ximo: 100)</param>
         [HttpGet]
         public async Task<ActionResult<PaginatedResult<UsuarioDto>>> GetUsuarios(
             [FromQuery] int pageNumber = 1, 
@@ -60,7 +60,7 @@ namespace PeladeirosfcApp.Controllers
         }
 
         /// <summary>
-        /// Busca usuários por termo
+        /// Busca usu?rios por termo
         /// </summary>
         [HttpGet("search")]
         public async Task<ActionResult<PaginatedResult<UsuarioDto>>> SearchUsuarios(
@@ -103,7 +103,7 @@ namespace PeladeirosfcApp.Controllers
         }
 
         /// <summary>
-        /// Obtém um usuário específico por ID
+        /// Obt?m um usu?rio espec?fico por ID
         /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<UsuarioDto>> GetUsuario(string id)
@@ -111,7 +111,7 @@ namespace PeladeirosfcApp.Controllers
             var usuario = await _usuarioService.GetByIdAsync(id);
             
             if (usuario == null) 
-                return NotFound(new { message = $"Usuário com ID {id} não encontrado" });
+                return NotFound(new { message = $"Usu?rio com ID {id} n?o encontrado" });
 
             var dto = new UsuarioDto
             {
@@ -138,11 +138,16 @@ namespace PeladeirosfcApp.Controllers
         }
 
         /// <summary>
-        /// Cria um novo usuário
+        /// Cria um novo usuÃ¡rio
         /// </summary>
         [HttpPost]
         public async Task<ActionResult<UsuarioDto>> CreateUsuario([FromBody] UsuarioDto usuarioDto)
         {
+            if (string.IsNullOrWhiteSpace(usuarioDto.Nome))
+            {
+                usuarioDto.Nome = usuarioDto.Apelido ?? usuarioDto.Email ?? "Usuï¿½rio";
+                ModelState.Remove("Nome");
+            }
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -175,12 +180,12 @@ namespace PeladeirosfcApp.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = "Erro ao criar usuário", error = ex.Message });
+                return BadRequest(new { message = "Erro ao criar usu?rio", error = ex.Message });
             }
         }
 
         /// <summary>
-        /// Atualiza um usuário existente
+        /// Atualiza um usu?rio existente
         /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUsuario(string id, [FromBody] UsuarioDto usuarioDto)
@@ -193,18 +198,18 @@ namespace PeladeirosfcApp.Controllers
                 var usuario = await _usuarioService.UpdateAsync(id, usuarioDto);
                 
                 if (usuario == null)
-                    return NotFound(new { message = $"Usuário com ID {id} não encontrado" });
+                    return NotFound(new { message = $"Usu?rio com ID {id} n?o encontrado" });
 
                 return NoContent();
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = "Erro ao atualizar usuário", error = ex.Message });
+                return BadRequest(new { message = "Erro ao atualizar usu?rio", error = ex.Message });
             }
         }
 
         /// <summary>
-        /// Remove um usuário
+        /// Remove um usu?rio
         /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUsuario(string id)
@@ -212,13 +217,13 @@ namespace PeladeirosfcApp.Controllers
             var result = await _usuarioService.DeleteAsync(id);
             
             if (!result)
-                return NotFound(new { message = $"Usuário com ID {id} não encontrado" });
+                return NotFound(new { message = $"Usu?rio com ID {id} n?o encontrado" });
 
             return NoContent();
         }
 
         /// <summary>
-        /// Verifica se um usuário existe
+        /// Verifica se um usu?rio existe
         /// </summary>
         [HttpHead("{id}")]
         [HttpGet("{id}/exists")]
