@@ -31,7 +31,7 @@
                 </a>
                 <h1 class="text-xl sm:text-2xl font-bold text-foreground">Crie sua conta</h1>
                 <p class="mt-1.5 sm:mt-2 text-center text-sm sm:text-base text-muted-foreground">
-                    Junte-se à comunidade e comece a jogar
+                    Junte-se ? comunidade e comece a jogar
                 </p>
             </div>
 
@@ -52,7 +52,7 @@
                     <div class="w-full border-t border-border"></div>
                 </div>
                 <div class="relative flex justify-center text-xs sm:text-sm">
-                    <span class="bg-background px-4 text-muted-foreground">ou preencha o formulário</span>
+                    <span class="bg-background px-4 text-muted-foreground">ou preencha o formul?rio</span>
                 </div>
             </div>
 
@@ -79,8 +79,8 @@
                     <h2 class="text-sm font-semibold text-foreground border-b border-border pb-2">Dados Pessoais</h2>
 
                     <div class="space-y-1.5">
-                        <label class="block text-sm text-foreground">Nome de Usuário</label>
-                        <InputText @bind-Value="signupModel.Nome" class="w-full h-10 sm:h-11 px-4 border border-border rounded-lg bg-card/80 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Seu nome de usuário" />
+                        <label class="block text-sm text-foreground">Nome de Usu?rio</label>
+                        <InputText @bind-Value="signupModel.Nome" class="w-full h-10 sm:h-11 px-4 border border-border rounded-lg bg-card/80 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Seu nome de usu?rio" />
                         <ValidationMessage For="@(() => signupModel.Nome)" class="text-xs text-destructive mt-1 block" />
                     </div>
 
@@ -107,25 +107,25 @@
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="block text-sm text-foreground">Gênero</label>
+                            <label class="block text-sm text-foreground">G?nero</label>
                             <InputSelect @bind-Value="signupModel.Genero" class="w-full h-10 sm:h-11 px-4 border border-border rounded-lg bg-card/80 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary">
                                 <option value="">Selecione</option>
                                 <option value="Masculino">Masculino</option>
                                 <option value="Feminino">Feminino</option>
                                 <option value="Outro">Outro</option>
-                                <option value="Prefiro não dizer">Prefiro não dizer</option>
+                                <option value="Prefiro n?o dizer">Prefiro n?o dizer</option>
                             </InputSelect>
                         </div>
                     </div>
                 </div>
 
-                <!-- Características do Jogador -->
+                <!-- Caracter?sticas do Jogador -->
                 <div class="space-y-4">
-                    <h2 class="text-sm font-semibold text-foreground border-b border-border pb-2">Características do Jogador</h2>
+                    <h2 class="text-sm font-semibold text-foreground border-b border-border pb-2">Caracter?sticas do Jogador</h2>
 
                     <div class="grid grid-cols-2 gap-3 sm:gap-4">
                         <div class="space-y-1.5">
-                            <label class="block text-sm text-foreground">Pé Dominante</label>
+                            <label class="block text-sm text-foreground">P? Dominante</label>
                             <InputSelect @bind-Value="signupModel.PeDominante" class="w-full h-10 sm:h-11 px-4 border border-border rounded-lg bg-card/80 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary">
                                 <option value="">Selecione</option>
                                 <option value="Direito">Direito</option>
@@ -135,7 +135,7 @@
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="block text-sm text-foreground">Posição</label>
+                            <label class="block text-sm text-foreground">Posi??o</label>
                             <InputSelect @bind-Value="signupModel.Posicao" class="w-full h-10 sm:h-11 px-4 border border-border rounded-lg bg-card/80 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary">
                                 <option value="">Selecione</option>
                                 <option value="Goleiro">Goleiro</option>
@@ -173,7 +173,7 @@
 
             <!-- Sign In Link -->
             <p class="text-center text-sm sm:text-base text-muted-foreground">
-                Já tem uma conta? 
+                J? tem uma conta? 
                 <a href="/login" class="font-medium text-primary hover:underline ml-1">
                     Entrar
                 </a>
@@ -203,7 +203,7 @@
         try
         {
             var confirmar = await JSRuntime.InvokeAsync<bool>("confirm", 
-                "?? Modo Debug Ativo!\n\nDeseja preencher o formulário com dados fake para teste?");
+                "?? Modo Debug Ativo!\n\nDeseja preencher o formul?rio com dados fake para teste?");
 
             if (confirmar)
             {
@@ -230,7 +230,7 @@
 
         StateHasChanged();
         
-        Console.WriteLine("? Formulário preenchido com dados fake!");
+        Console.WriteLine("? Formul?rio preenchido com dados fake!");
     }
 
     private async Task HandleSignup()
@@ -241,8 +241,13 @@
             errorMessage = string.Empty;
             successMessage = string.Empty;
 
+            var nome = !string.IsNullOrWhiteSpace(signupModel.Nome)
+                ? signupModel.Nome
+                : (signupModel.Apelido ?? signupModel.Email ?? string.Empty);
+
             var usuarioDto = new UsuarioDto
             {
+                Nome = nome,
                 Email = signupModel.Email,
                 Telefone = signupModel.Telefone,
                 Apelido = signupModel.Apelido,
@@ -260,7 +265,7 @@
         }
         catch (HttpRequestException ex)
         {
-            errorMessage = $"Erro de conexão com a API: {ex.Message}. Verifique se a API está rodando.";
+            errorMessage = $"Erro de conex?o com a API: {ex.Message}. Verifique se a API est? rodando.";
         }
         catch (Exception ex)
         {
@@ -274,10 +279,12 @@
 
     private class SignUpModel
     {
+        [Required(ErrorMessage = "Nome ? obrigat?rio")]
+        [StringLength(100, ErrorMessage = "Nome deve ter no m?ximo 100 caracteres")]
         public string? Nome { get; set; }
 
-        [Required(ErrorMessage = "Email é obrigatório")]
-        [EmailAddress(ErrorMessage = "Email inválido")]
+        [Required(ErrorMessage = "Email ? obrigat?rio")]
+        [EmailAddress(ErrorMessage = "Email inv?lido")]
         public string Email { get; set; } = string.Empty;
 
         public string? Telefone { get; set; }
